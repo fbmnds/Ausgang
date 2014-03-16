@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>Ausgang</name></assembly>
+<members>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Gui">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="P:MainApp.rscom">
+<summary>
+ connect with default settings
+</summary>
+</member>
+<member name="T:MainApp">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:RSCOM">
+
+</member>
+</members>
+</doc>
