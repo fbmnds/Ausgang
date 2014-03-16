@@ -3,47 +3,68 @@
 open System
 open System.Windows
 open System.Windows.Controls
+open System.Reflection
+open System.Runtime.InteropServices
 
 open FSharpx
 
 open System.IO.Ports
 
+open Gui
+open RSCOM
+
+
 type MainWindow = XAML<"MainWindow.xaml">
+  
 
-
-let x() =
-    let t = new System.IO.Ports.SerialPort ("COM5",9600,Parity.None, 8, StopBits.One)
-    t.set_DtrEnable true
-    t.set_RtsEnable false    
- 
+/// connect with default settings
+// TODO: should be a model?!
+let rscom = new RSCOM("COM5", 4800, Parity.None, 8, StopBits.One )
+rscom.Connect()
+rscom.Open()
+// TODO: cleanup properly instead of relying on the garbage collector
 
 let loadWindow() =
    let window = MainWindow()
    // Your awesome code code here and you have strongly typed access to the XAML via "window"
-   let grey = new Media.SolidColorBrush( Media.Color.FromRgb (192uy, 192uy,192uy) )
-   let red = new Media.SolidColorBrush( Media.Color.FromRgb (255uy, 0uy, 0uy) )
-   let green = new Media.SolidColorBrush( Media.Color.FromRgb (0uy, 255uy, 0uy) )
-   let r1 = window.RtsSignal :?> System.Windows.Shapes.Rectangle
-   let r2 = window.DtrSignal :?> System.Windows.Shapes.Rectangle
-   let r3 = window.TxdSignal :?> System.Windows.Shapes.Rectangle
-   r1.Fill <- grey
-   r2.Fill <- grey
-   r3.Fill <- grey
-   (window.RtsAn).Click.AddHandler(new System.Windows.RoutedEventHandler
-    (fun sender e -> r1.Fill <- green) )
-   (window.RtsAus).Click.AddHandler(new System.Windows.RoutedEventHandler
-    (fun sender e -> r1.Fill <- red) )
-   (window.DtrAn).Click.AddHandler(new System.Windows.RoutedEventHandler
-    (fun sender e -> r2.Fill <- green) )
-   (window.DtrAus).Click.AddHandler(new System.Windows.RoutedEventHandler
-    (fun sender e -> r2.Fill <- red) )
-   (window.TxdAn).Click.AddHandler(new System.Windows.RoutedEventHandler
-    (fun sender e -> r3.Fill <- green) )
-   (window.TxdAus).Click.AddHandler(new System.Windows.RoutedEventHandler
-    (fun sender e -> r3.Fill <- red) )
+   
+   /// initialize RTS/DTX/TXD indicators
+   fillRectWith (window.RtsSignal) LIGHT_GREY
+   fillRectWith (window.DtrSignal) LIGHT_GREY
+   fillRectWith (window.TxdSignal) LIGHT_GREY
+
+   /// RTS on
+   (fun sender e -> if (rscom.RTS true) then fillRectWith (window.RtsSignal) LIME
+                                        else fillRectWith (window.RtsSignal) LIGHT_GREY) 
+   |> addButtonHandler (window.RtsAn) 
+   
+   /// RTS off
+   (fun sender e -> if (rscom.RTS false) then fillRectWith (window.RtsSignal) RED
+                                         else fillRectWith (window.RtsSignal) LIGHT_GREY) 
+   |> addButtonHandler (window.RtsAus)
+   
+   /// DTR on
+   (fun sender e -> if (rscom.DTR true) then fillRectWith (window.DtrSignal) LIME 
+                                        else fillRectWith (window.DtrSignal) LIGHT_GREY) 
+   |> addButtonHandler (window.DtrAn)
+   
+   /// DTR off
+   (fun sender e -> if (rscom.DTR false) then fillRectWith (window.DtrSignal) RED
+                                         else fillRectWith (window.DtrSignal) LIGHT_GREY)
+   |> addButtonHandler (window.DtrAus)
+   
+   /// TXD on
+   (fun sender e -> if (rscom.TXD true) then fillRectWith (window.TxdSignal) LIME
+                                        else fillRectWith (window.TxdSignal) LIGHT_GREY) 
+   |> addButtonHandler (window.TxdAn)
+   
+   /// TXD off
+   (fun sender e -> if (rscom.TXD false) then fillRectWith (window.TxdSignal) RED
+                                         else fillRectWith (window.TxdSignal) LIGHT_GREY)
+   |> addButtonHandler (window.TxdAus)
+
+   /// schaffold main window
    window.MainWindow
-
-
 
 
 [<STAThread>]
