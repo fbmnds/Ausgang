@@ -11,9 +11,9 @@
 FsEmptyWindowsApp2/FsEmptyWindowsApp2/[Dd]ebug/
 FsEmptyWindowsApp2/FsEmptyWindowsApp2/[Rr]elease/
 */x64/
-FsEmptyWindowsApp2/FsEmptyWindowsApp2/build/
-FsEmptyWindowsApp2/FsEmptyWindowsApp2/bin/
-FsEmptyWindowsApp2/FsEmptyWindowsApp2/obj/
+FsEmptyWindowsApp2/FsEmptyWindowsApp2/build/*
+FsEmptyWindowsApp2/FsEmptyWindowsApp2/bin/*
+FsEmptyWindowsApp2/FsEmptyWindowsApp2/obj/*
 
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
 !packages/*/build/
